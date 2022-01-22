@@ -22,6 +22,7 @@ class _GameState extends State<Game> {
               child: Container(
                 // height: screenHeight * 0.5,
                 child: GridView.builder(
+                    padding: EdgeInsets.fromLTRB(8, 8, 8, 16),
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 20),
@@ -53,6 +54,24 @@ class _GameState extends State<Game> {
                       }
                     }),
               ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 20, left: 20, right: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "START",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                )
+              ],
             ),
           )
         ],
