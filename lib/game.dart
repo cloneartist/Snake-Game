@@ -47,6 +47,14 @@ class _GameState extends State<Game> {
     }
   }
 
+  bool isAvail(int x) {
+    if (snakePosition.contains(x)) {
+      print(x);
+      return true;
+    }
+    return false;
+  }
+
   var direction = 'left';
   void updateSnake() {
     setState(() {
@@ -54,18 +62,24 @@ class _GameState extends State<Game> {
         case 'down':
           print(snakePosition);
           if (snakePosition.last > (numberOfRows - 1) * numberOfColumns) {
+            //numrow-1*numcol to find if we are in the second last row
             print("hey");
+
             snakePosition.add(snakePosition.last +
                 (numberOfColumns as int) -
-                (numberOfSquares as int));
+                (numberOfSquares
+                    as int)); //if yes the we take a full turn and come down from the top
           } else {
-            snakePosition.add(snakePosition.last + (numberOfColumns as int));
+            snakePosition.add(snakePosition.last +
+                (numberOfColumns
+                    as int)); //else go on to next row by adding the number of colums to current position
             print("hi");
           }
           // snakePosition.removeAt(0);
           break;
 
         case 'up':
+          // print(numberOfSquares);
           print(snakePosition);
           if (snakePosition.last < numberOfColumns) {
             snakePosition.add(snakePosition.last -
@@ -80,24 +94,20 @@ class _GameState extends State<Game> {
         case 'left':
           print(snakePosition);
           if (snakePosition.last % (numberOfColumns as int) == 0) {
+            print(snakePosition.last % (numberOfColumns as int));
             snakePosition
                 .add(snakePosition.last - 1 + (numberOfColumns as int));
+            print(snakePosition.last - 1 + (numberOfColumns as int));
+          } else if (isAvail(snakePosition.last - 1)) {
+            snakePosition = List.from(snakePosition.reversed);
+            snakePosition.add(snakePosition.last - 1);
+
+            // snakePosition.add(snakePosition.last - (snakePosition.length - 1));
           } else {
             snakePosition.add(snakePosition.last - 1);
           }
-          // snakePosition.removeAt(0);
 
           break;
-
-        // case 'right':
-        //   print(snakePosition);
-        //   if (((snakePosition.last + 1 )% numberOfColumns == 0)) {
-        //     snakePosition
-        //         .add(snakePosition.last + 1 - (numberOfColumns as int));
-        //   } else {
-        //     snakePosition.add(snakePosition.last + 1);
-        //   }
-        //   break;
 
         case 'right':
           print(snakePosition);
