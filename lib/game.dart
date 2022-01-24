@@ -38,7 +38,7 @@ class _GameState extends State<Game> {
   //     ];
 
   var randomNumber = Random();
-  int food = 1;
+  int food = 2;
 
   void generateFood() {
     food = randomNumber.nextInt(numberOfSquares);
@@ -47,7 +47,7 @@ class _GameState extends State<Game> {
     }
   }
 
-  var direction = 'down';
+  var direction = 'left';
   void updateSnake() {
     setState(() {
       switch (direction) {
@@ -62,8 +62,60 @@ class _GameState extends State<Game> {
             snakePosition.add(snakePosition.last + (numberOfColumns as int));
             print("hi");
           }
-          snakePosition.removeAt(0);
+          // snakePosition.removeAt(0);
           break;
+
+        case 'up':
+          print(snakePosition);
+          if (snakePosition.last < numberOfColumns) {
+            snakePosition.add(snakePosition.last -
+                (numberOfColumns as int) +
+                (numberOfSquares as int));
+          } else {
+            snakePosition.add(snakePosition.last - (numberOfColumns as int));
+          }
+
+          break;
+
+        case 'left':
+          print(snakePosition);
+          if (snakePosition.last % (numberOfColumns as int) == 0) {
+            snakePosition
+                .add(snakePosition.last - 1 + (numberOfColumns as int));
+          } else {
+            snakePosition.add(snakePosition.last - 1);
+          }
+          // snakePosition.removeAt(0);
+
+          break;
+
+        // case 'right':
+        //   print(snakePosition);
+        //   if (((snakePosition.last + 1 )% numberOfColumns == 0)) {
+        //     snakePosition
+        //         .add(snakePosition.last + 1 - (numberOfColumns as int));
+        //   } else {
+        //     snakePosition.add(snakePosition.last + 1);
+        //   }
+        //   break;
+
+        case 'right':
+          print(snakePosition);
+          if (((snakePosition.last + 1) % (numberOfColumns as int) == 0)) {
+            snakePosition
+                .add(snakePosition.last + 1 - (numberOfColumns as int));
+          } else {
+            snakePosition.add(snakePosition.last + 1);
+          }
+          break;
+
+        default:
+      }
+
+      if (snakePosition.last == food) {
+        generateFood();
+      } else {
+        snakePosition.removeAt(0);
       }
     });
   }
