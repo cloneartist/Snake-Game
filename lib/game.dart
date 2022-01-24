@@ -11,55 +11,84 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> {
+  int getAll(BuildContext context) {
+    return 0;
+  }
+
+  var snakePosition = [20, 21, 22, 23, 24];
+  int beg = 44;
+  get isLandscape =>
+      MediaQuery.of(context).orientation == Orientation.landscape;
+  get screenWidth => MediaQuery.of(context).size.width;
+  get screenHeight => MediaQuery.of(context).size.height;
+
+  get numberOfRows => (screenHeight > 388 && screenWidth < 850)
+      ? (screenHeight ~/ 20) - 2
+      : screenHeight ~/ 20 - 1;
+  get numberOfColumns => screenWidth ~/ 20;
+  get numberOfSquares => numberOfColumns * numberOfRows;
+
+  // List<num> get snakePosition => [
+  //       beg,
+  //       beg + numberOfColumns,
+  //       beg + (numberOfColumns * 2),
+  //       beg + (numberOfColumns * 3),
+  //       beg + (numberOfColumns * 4),
+  //       // print("dhee"),
+  //     ];
+
+  var randomNumber = Random();
+  int food = 1;
+
+  void generateFood() {
+    food = randomNumber.nextInt(numberOfSquares);
+    if (snakePosition.contains(food)) {
+      food = randomNumber.nextInt(numberOfSquares);
+    }
+  }
+
+  var direction = 'down';
+  void updateSnake() {
+    setState(() {
+      switch (direction) {
+        case 'down':
+          print(snakePosition);
+          if (snakePosition.last > (numberOfRows - 1) * numberOfColumns) {
+            print("hey");
+            snakePosition.add(snakePosition.last +
+                (numberOfColumns as int) -
+                (numberOfSquares as int));
+          } else {
+            snakePosition.add(snakePosition.last + (numberOfColumns as int));
+            print("hi");
+          }
+          snakePosition.removeAt(0);
+          break;
+      }
+    });
+  }
+
+  void startGame() {
+    // snakePosition = [
+    //   beg,
+    //   beg + numberOfColumns,
+    //   beg + (numberOfColumns * 2),
+    //   beg + (numberOfColumns * 3),
+    //   beg + (numberOfColumns * 4)
+    // ];
+    print("Hey There");
+    const duration = const Duration(milliseconds: 1000);
+    Timer.periodic(duration, (timer) {
+      updateSnake();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-
-    double screenWidth = MediaQuery.of(context).size.width;
-    int beg = 44;
-    double screenHeight = MediaQuery.of(context).size.height;
-    int numberOfRows = (screenHeight > 388 && screenWidth < 850)
-        ? (screenHeight ~/ 20) - 2
-        : screenHeight ~/ 20 - 1;
     // int numberOfRows= screenHeight ~/ 20;
-    int numberOfColumns = screenWidth ~/ 20;
-    int numberOfSquares = numberOfColumns * numberOfRows;
-    var snakePosition = [
-      beg,
-      beg + numberOfColumns,
-      beg + (numberOfColumns * 2),
-      beg + (numberOfColumns * 3),
-      beg + (numberOfColumns * 4)
-    ];
-    print(
-        "$screenWidth $screenHeight $numberOfRows $numberOfColumns $numberOfSquares");
 
-    var randomNumber = Random();
-    int food = randomNumber.nextInt(numberOfSquares);
-
-    void generateFood() {
-      food = randomNumber.nextInt(numberOfSquares);
-      if (snakePosition.contains(food)) {
-        food = randomNumber.nextInt(numberOfSquares);
-      }
-    }
-
-    void updateSnake() {}
-    void startGame() {
-      snakePosition = [
-        beg,
-        beg + numberOfColumns,
-        beg + (numberOfColumns * 2),
-        beg + (numberOfColumns * 3),
-        beg + (numberOfColumns * 4)
-      ];
-      print("Hey There");
-      const duration = const Duration(milliseconds: 300);
-      Timer.periodic(duration, (timer) {
-        updateSnake();
-      });
-    }
+    // print(
+    //     "$screenWidth $screenHeight $numberOfRows $numberOfColumns $numberOfSquares");
 
     return SafeArea(
       child: Scaffold(
@@ -78,7 +107,7 @@ class _GameState extends State<Game> {
                       itemBuilder: (BuildContext context, int index) {
                         if (index < numberOfSquares) {
                           if (snakePosition.contains(index)) {
-                            print(index);
+                            // print(index);
                             return Center(
                               child: Container(
                                 width: 20,
@@ -125,7 +154,7 @@ class _GameState extends State<Game> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 5),
+              padding: EdgeInsets.only(bottom: 1),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -133,7 +162,7 @@ class _GameState extends State<Game> {
                     onTap: () {
                       startGame();
                     },
-                    child: Padding(
+                    child: const Padding(
                       padding: const EdgeInsets.fromLTRB(8.0, 8, 8, 8),
                       child: Text(
                         "START",
