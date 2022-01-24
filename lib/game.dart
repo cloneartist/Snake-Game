@@ -139,7 +139,7 @@ class _GameState extends State<Game> {
     //   beg + (numberOfColumns * 4)
     // ];
     print("Hey There");
-    const duration = const Duration(milliseconds: 1000);
+    const duration = const Duration(milliseconds: 300);
     Timer.periodic(duration, (timer) {
       updateSnake();
     });
@@ -159,6 +159,21 @@ class _GameState extends State<Game> {
           children: [
             Expanded(
               child: GestureDetector(
+                onVerticalDragUpdate: (details) {
+                  if (direction != 'up' && details.delta.dy > 0) {
+                    print("njaaan");
+                    direction = 'down';
+                  } else if (direction != 'down' && details.delta.dy < 0) {
+                    direction = 'up';
+                  }
+                },
+                onHorizontalDragUpdate: (details) {
+                  if (direction != 'left' && details.delta.dx > 0) {
+                    direction = 'right';
+                  } else if (direction != 'right' && details.delta.dx < 0) {
+                    direction = 'left';
+                  }
+                },
                 child: Container(
                   // height: screenHeight * 0.5,
                   child: GridView.builder(
