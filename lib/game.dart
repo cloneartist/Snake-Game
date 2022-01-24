@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -33,6 +34,17 @@ class _GameState extends State<Game> {
     ];
     print(
         "$screenWidth $screenHeight $numberOfRows $numberOfColumns $numberOfSquares");
+
+    var randomNumber = Random();
+    int food = randomNumber.nextInt(numberOfSquares);
+
+    void generateFood() {
+      food = randomNumber.nextInt(numberOfSquares);
+      if (snakePosition.contains(food)) {
+        food = randomNumber.nextInt(numberOfSquares);
+      }
+    }
+
     void updateSnake() {}
     void startGame() {
       snakePosition = [
@@ -42,6 +54,7 @@ class _GameState extends State<Game> {
         beg + (numberOfColumns * 3),
         beg + (numberOfColumns * 4)
       ];
+      print("Hey There");
       const duration = const Duration(milliseconds: 300);
       Timer.periodic(duration, (timer) {
         updateSnake();
@@ -76,6 +89,16 @@ class _GameState extends State<Game> {
                                   child: Container(
                                     color: Colors.white,
                                   ),
+                                ),
+                              ),
+                            );
+                          } else if (index == food) {
+                            return Container(
+                              padding: EdgeInsets.all(2),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Container(
+                                  color: Colors.green,
                                 ),
                               ),
                             );
