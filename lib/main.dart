@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
 
       // home: MyHomePage(title: '',),
-      home: Game(),
+      home: const Game(),
     );
   }
 }

@@ -38,7 +38,7 @@ class _GameState extends State<Game> {
   //     ];
 
   var randomNumber = Random();
-  int food = 2;
+  int food = 29;
 
   void generateFood() {
     food = randomNumber.nextInt(numberOfSquares);
@@ -49,7 +49,7 @@ class _GameState extends State<Game> {
 
   bool isAvail(int x) {
     if (snakePosition.contains(x)) {
-      print(x);
+      // print(x);
       return true;
     }
     return false;
@@ -60,10 +60,10 @@ class _GameState extends State<Game> {
     setState(() {
       switch (direction) {
         case 'down':
-          print(snakePosition);
+          // print(snakePosition);
           if (snakePosition.last > (numberOfRows - 1) * numberOfColumns) {
             //numrow-1*numcol to find if we are in the second last row
-            print("hey");
+            // print("hey");
 
             snakePosition.add(snakePosition.last +
                 (numberOfColumns as int) -
@@ -73,14 +73,14 @@ class _GameState extends State<Game> {
             snakePosition.add(snakePosition.last +
                 (numberOfColumns
                     as int)); //else go on to next row by adding the number of colums to current position
-            print("hi");
+            // print("hi");
           }
           // snakePosition.removeAt(0);
           break;
 
         case 'up':
           // print(numberOfSquares);
-          print(snakePosition);
+          // print(snakePosition);
           if (snakePosition.last < numberOfColumns) {
             snakePosition.add(snakePosition.last -
                 (numberOfColumns as int) +
@@ -92,12 +92,12 @@ class _GameState extends State<Game> {
           break;
 
         case 'left':
-          print(snakePosition);
+          // print(snakePosition);
           if (snakePosition.last % (numberOfColumns as int) == 0) {
-            print(snakePosition.last % (numberOfColumns as int));
+            // print(snakePosition.last % (numberOfColumns as int));
             snakePosition
                 .add(snakePosition.last - 1 + (numberOfColumns as int));
-            print(snakePosition.last - 1 + (numberOfColumns as int));
+            // print(snakePosition.last - 1 + (numberOfColumns as int));
           } else if (isAvail(snakePosition.last - 1)) {
             snakePosition = List.from(snakePosition.reversed);
             snakePosition.add(snakePosition.last - 1);
@@ -110,7 +110,7 @@ class _GameState extends State<Game> {
           break;
 
         case 'right':
-          print(snakePosition);
+          // print(snakePosition);
           if (((snakePosition.last + 1) % (numberOfColumns as int) == 0)) {
             snakePosition
                 .add(snakePosition.last + 1 - (numberOfColumns as int));
@@ -138,9 +138,15 @@ class _GameState extends State<Game> {
     //   beg + (numberOfColumns * 3),
     //   beg + (numberOfColumns * 4)
     // ];
-    print("Hey There");
-    const duration = const Duration(milliseconds: 300);
+
+    snakePosition = [20, 21, 22, 23, 24];
+    // print("Hey There");
+    const duration = Duration(milliseconds: 300);
     Timer.periodic(duration, (timer) {
+      if (gameOver()) {
+        timer.cancel();
+        showGameOverScreen();
+      }
       updateSnake();
     });
   }
@@ -161,7 +167,7 @@ class _GameState extends State<Game> {
               child: GestureDetector(
                 onVerticalDragUpdate: (details) {
                   if (direction != 'up' && details.delta.dy > 0) {
-                    print("njaaan");
+                    // print("njaaan");
                     direction = 'down';
                   } else if (direction != 'down' && details.delta.dy < 0) {
                     direction = 'up';
@@ -174,64 +180,61 @@ class _GameState extends State<Game> {
                     direction = 'left';
                   }
                 },
-                child: Container(
-                  // height: screenHeight * 0.5,
-                  child: GridView.builder(
-                      padding: EdgeInsets.fromLTRB(8, 8, 8, 16),
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: numberOfColumns),
-                      itemBuilder: (BuildContext context, int index) {
-                        if (index < numberOfSquares) {
-                          if (snakePosition.contains(index)) {
-                            // print(index);
-                            return Center(
-                              child: Container(
-                                width: 20,
-                                height: 20,
-                                padding: EdgeInsets.all(2),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Container(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            );
-                          } else if (index == food) {
-                            return Container(
-                              padding: EdgeInsets.all(2),
+                child: GridView.builder(
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: numberOfColumns),
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index < numberOfSquares) {
+                        if (snakePosition.contains(index)) {
+                          // print(index);
+                          return Center(
+                            child: Container(
+                              width: 20,
+                              height: 20,
+                              padding: const EdgeInsets.all(2),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Container(
-                                  color: Colors.green,
+                                  color: Colors.white,
                                 ),
                               ),
-                            );
-                          } else {
-                            return Center(
+                            ),
+                          );
+                        } else if (index == food) {
+                          return Container(
+                            padding: const EdgeInsets.all(2),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
                               child: Container(
-                                width: 20,
-                                height: 20,
-                                padding: EdgeInsets.all(2),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Container(
-                                    color: Colors.white38,
-                                  ),
+                                color: Colors.green,
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Center(
+                            child: Container(
+                              width: 20,
+                              height: 20,
+                              padding: const EdgeInsets.all(2),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Container(
+                                  color: Colors.white12,
                                 ),
                               ),
-                            );
-                          }
-                        } else {
-                          return Container();
+                            ),
+                          );
                         }
-                      }),
-                ),
+                      } else {
+                        return Container();
+                      }
+                    }),
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 1),
+              padding: const EdgeInsets.only(bottom: 1),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -240,7 +243,7 @@ class _GameState extends State<Game> {
                       startGame();
                     },
                     child: const Padding(
-                      padding: const EdgeInsets.fromLTRB(8.0, 8, 8, 8),
+                      padding: EdgeInsets.fromLTRB(8.0, 8, 8, 8),
                       child: Text(
                         "START",
                         style: TextStyle(color: Colors.white),
@@ -254,5 +257,40 @@ class _GameState extends State<Game> {
         ),
       ),
     );
+  }
+
+  bool gameOver() {
+    for (int i = 0; i < snakePosition.length; i++) {
+      int count = 0;
+      for (int j = 0; j < snakePosition.length; j++) {
+        if (snakePosition[i] == snakePosition[j]) {
+          count += 1;
+        }
+
+        if (count == 2) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  void showGameOverScreen() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("GAME OVER"),
+            content: Text("Your Score: " + snakePosition.length.toString()),
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    startGame();
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Play Again"))
+            ],
+          );
+        });
   }
 }
