@@ -11,10 +11,6 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> {
-  int getAll(BuildContext context) {
-    return 0;
-  }
-
   var snakePosition = [20, 21, 22, 23, 24];
   int beg = 44;
   get isLandscape =>
@@ -141,7 +137,7 @@ class _GameState extends State<Game> {
 
     snakePosition = [20, 21, 22, 23, 24];
     // print("Hey There");
-    const duration = Duration(milliseconds: 300);
+    const duration = Duration(milliseconds: 200);
     Timer.periodic(duration, (timer) {
       if (gameOver()) {
         timer.cancel();
