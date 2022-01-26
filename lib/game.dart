@@ -191,7 +191,7 @@ class _GameState extends State<Game> {
                               height: 20,
                               padding: const EdgeInsets.all(2),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(50),
                                 child: Container(
                                   color: Colors.white,
                                 ),
@@ -202,7 +202,7 @@ class _GameState extends State<Game> {
                           return Container(
                             padding: const EdgeInsets.all(2),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
+                              borderRadius: BorderRadius.circular(50),
                               child: Container(
                                 color: Colors.green,
                               ),
@@ -215,9 +215,9 @@ class _GameState extends State<Game> {
                               height: 20,
                               padding: const EdgeInsets.all(2),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(50),
                                 child: Container(
-                                  color: Colors.white12,
+                                  color: Colors.transparent,
                                 ),
                               ),
                             ),
